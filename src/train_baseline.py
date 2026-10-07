@@ -15,6 +15,7 @@ Usage:
 """
 
 import argparse
+import json
 from pathlib import Path
 
 import torch
@@ -74,6 +75,7 @@ def main():
     parser.add_argument("--batch_size", type=int, default=32)
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--checkpoint_dir", default="checkpoints")
+    parser.add_argument("--results_file", default="docs/results.json")
     args = parser.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -93,6 +95,7 @@ def main():
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 
     best_auc = -1
+    best_metrics = None
     ckpt_dir = Path(args.checkpoint_dir)
     ckpt_dir.mkdir(parents=True, exist_ok=True)
 
@@ -105,10 +108,25 @@ def main():
 
         if val_auc > best_auc:
             best_auc = val_auc
+            best_metrics = {"epoch": epoch, "val_loss": val_loss, "val_acc": val_acc,
+                             "val_f1": val_f1, "val_auc": val_auc}
             torch.save(model.state_dict(), ckpt_dir / "cnn_baseline_best.pt")
             print(f"  -> saved new best checkpoint (val_auc={val_auc:.4f})")
 
     print(f"\nDone. Best val AUC = {best_auc:.4f}. Checkpoint at {ckpt_dir / 'cnn_baseline_best.pt'}")
+
+    # Log this run alongside the temporal models' results (see train_temporal.py)
+    # so all model types end up comparable in one place for the ablation table.
+    results_path = Path(args.results_file)
+    results_path.parent.mkdir(parents=True, exist_ok=True)
+    all_results = {}
+    if results_path.exists():
+        with open(results_path) as f:
+            all_results = json.load(f)
+    all_results["cnn_baseline"] = best_metrics
+    with open(results_path, "w") as f:
+        json.dump(all_results, f, indent=2)
+    print(f"Result logged -> {results_path}")
 
 
 if __name__ == "__main__":
