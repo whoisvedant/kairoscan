@@ -182,3 +182,45 @@ already-trained checkpoint. Saves that number to
 - [x] Stage 3 — robustness evaluation — see docs/results.md (notable AUC/accuracy gap under compression)
 - [x] Stage 4 — calibration — temperature scaling didn't help (model was already well-calibrated), but the uncertain band did (97.1% acc on confident subset)
 - [ ] Stage 5 — evidence localization + explanation layer
+
+## Stage 5 - Evidence report and localization check
+
+Turns the model's per-frame scores into something a person can read: a verdict
+(REAL / FAKE / UNCERTAIN), a confidence label, the suspicious segments of the
+video, the highest-scoring face crops and a plain-language explanation.
+
+```powershell
+python tests/test_evidence.py
+python tests/test_stage5_smoke.py
+python src/evaluation/analyze_video.py --model_type lstm --n 6
+python src/evaluation/splice_test.py --model_type lstm --n_pairs 100
+```
+
+- Reports are written to `outputs/reports/<video>.json` and `.png`.
+- `splice_test.py` joins real and fake face crops at a known point and checks that the
+  timeline follows the content. FF++ has no manipulated-segment labels, so this is a
+  sanity check, not localization accuracy. Results go to `docs/localization_sanity.json`.
+- Limits: only the first 16 of the 24 sampled frames are analysed; per-frame scores are
+  trained only through mean pooling, so they are not validated boundaries.
+- The fitted temperature is used by default; add `--no_temperature` for raw output.
+
+## Stage 5 - Evidence report and localization check
+
+Turns the model's per-frame scores into something a person can read: a verdict
+(REAL / FAKE / UNCERTAIN), a confidence label, the suspicious segments of the
+video, the highest-scoring face crops and a plain-language explanation.
+
+```powershell
+python tests/test_evidence.py
+python tests/test_stage5_smoke.py
+python src/evaluation/analyze_video.py --model_type lstm --n 6
+python src/evaluation/splice_test.py --model_type lstm --n_pairs 100
+```
+
+- Reports are written to `outputs/reports/<video>.json` and `.png`.
+- `splice_test.py` joins real and fake face crops at a known point and checks that the
+  timeline follows the content. FF++ has no manipulated-segment labels, so this is a
+  sanity check, not localization accuracy. Results go to `docs/localization_sanity.json`.
+- Limits: only the first 16 of the 24 sampled frames are analysed; per-frame scores are
+  trained only through mean pooling, so they are not validated boundaries.
+- The fitted temperature is used by default; add `--no_temperature` for raw output.

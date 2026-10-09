@@ -78,3 +78,18 @@ This section is Objective 4's evidence — it answers whether the model's
 stated confidence can actually be trusted, and whether abstaining on
 genuinely ambiguous cases improves reliability on the rest. The honest
 answer here is mixed: calibration itself didn't help, but abstaining did.
+
+## Stage 5 - Evidence report and splice sanity test (LSTM)
+
+Demo: 6 videos from the test split (3 real, 3 fake). All 6 verdicts matched the dataset label (risk 1-5% on real, 96-100% on fake). This is a demonstration, not an evaluation.
+
+Splice sanity test: 100 real/fake pairs, 16 frames per clip, splice after frame 8, calibrated with T=1.4578.
+
+| Direction | Mean score (real half / fake half) | Frame AUC | Splice found within +/-2 frames | Random guess |
+|---|---|---|---|---|
+| Real -> Fake | 0.19 / 0.88 | 0.952 | 78% | ~38% |
+| Fake -> Real | 0.30 / 0.92 | 0.936 | 73% | ~38% |
+
+Unspliced reference: real 0.19, fake 0.94 (frame AUC 0.977).
+
+Limits: this is a sanity check, not accuracy on real partial manipulations. Each splice joins two different people, so the model may react to the join itself. In Fake -> Real the real half scores 0.30 (vs 0.19 in Real -> Fake), possibly because the LSTM's memory carries the fake signal forward (not verified). Only the first 16 of 24 sampled frames are analysed.

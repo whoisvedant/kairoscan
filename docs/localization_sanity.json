@@ -1,0 +1,29 @@
+{
+  "lstm": {
+    "n_pairs": 100,
+    "seq_len": 16,
+    "split_at": 8,
+    "tolerance_frames": 2,
+    "chance_boundary_hit_rate": 0.38461538461538464,
+    "unspliced_reference": {
+      "mean_score_real_video": 0.18823164701461792,
+      "mean_score_fake_video": 0.937297523021698,
+      "frame_auc": 0.977165234375
+    },
+    "real_to_fake": {
+      "frame_auc": 0.9515484375,
+      "mean_score_real_half": 0.1942889541387558,
+      "mean_score_fake_half": 0.8814684152603149,
+      "boundary_hit_rate": 0.78,
+      "peak_in_fake_half_rate": 1.0
+    },
+    "fake_to_real": {
+      "frame_auc": 0.9362875,
+      "mean_score_real_half": 0.3045710623264313,
+      "mean_score_fake_half": 0.9244701266288757,
+      "boundary_hit_rate": 0.73,
+      "peak_in_fake_half_rate": 0.98
+    },
+    "calibration": "temperature scaling, T=1.4578"
+  }
+}
