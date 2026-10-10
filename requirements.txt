@@ -8,3 +8,5 @@ scikit-learn>=1.4.0
 matplotlib>=3.8.0
 tqdm>=4.66.0
 albumentations>=1.4.0       # augmentation for robustness experiments (compression/blur/noise)
+flask
+flask

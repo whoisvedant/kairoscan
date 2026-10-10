@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}{{ r.video_id }} - Kairoscan{% endblock %}
+{% block content %}
+{% set n = frames|length %}
+<div class="wrap">
+<nav class="crumb"><a href="{{ url_for('index') }}">All videos</a><span aria-hidden="true">/</span><span>{{ r.video_id }}</span></nav>
+
+<section class="summary v-{{ s.css }}" aria-labelledby="verdict">
+  <div class="verdict-card">
+    <span class="vicon" aria-hidden="true">
+      {% if s.css == 'fake' %}<svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3Z" /><path d="M12 10v4.5M12 17.3v.2"/></svg>
+      {% elif s.css == 'real' %}<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.4 2.7 2.7L16.3 9.5"/></svg>
+      {% else %}<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1 .8-1 1.5M12 16.6v.2"/></svg>{% endif %}
+    </span>
+    <div>
+      <p class="vid">{{ r.video_id }}</p>
+      <h1 id="verdict">{{ s.verdict_text }}</h1>
+    </div>
+  </div>
+  <p class="explain">{{ r.explanation }}</p>
+
+  <div class="gauge-panel">
+    <div class="gauge-head"><span>Fake risk</span><b>{{ s.risk }}%</b></div>
+    <div class="meter" role="img" aria-label="Fake risk {{ s.risk }} percent. Scores between {{ band[0] }} and {{ band[1] }} percent are treated as cannot decide.">
+      <div class="track">
+        <div class="zone z-real" style="width:{{ band[0] }}%"></div>
+        <div class="zone z-unc" style="left:{{ band[0] }}%; width:{{ band[1] - band[0] }}%"></div>
+        <div class="zone z-fake" style="left:{{ band[1] }}%; right:0"></div>
+        <div class="pin" style="left:{{ s.risk }}%"></div>
+      </div>
+      <div class="scale">
+        <span style="left:0">Real</span>
+        <span style="left:{{ (band[0] + band[1]) / 2 }}%; transform:translateX(-50%)">Cannot decide</span>
+        <span style="right:0">Fake</span>
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt>Confidence</dt><dd>{{ r.confidence }}</dd></div>
+      {% if r.analysed_seconds %}<div><dt>Analysed</dt><dd>first {{ '%.1f' % r.analysed_seconds }} s{% if r.video_seconds %} of {{ '%.1f' % r.video_seconds }} s{% endif %}</dd></div>{% endif %}
+      {% if r.ground_truth_label %}<div><dt>Dataset label</dt><dd>{{ r.ground_truth_label|capitalize }}{% if match is not none %}<span class="match {{ 'ok' if match else 'bad' }}">{{ 'matches' if match else 'differs' }}</span>{% endif %}</dd></div>{% endif %}
+    </dl>
+  </div>
+</section>
+
+<section class="panel" aria-labelledby="tl">
+  <h2 id="tl">Evidence timeline</h2>
+  <p class="hint">The model's fake score for each sampled frame. The shaded area is the smoothed score; red bands mark runs of frames at or above {{ thr }}%.</p>
+  <div class="scroll"><figure class="chart">
+    <svg viewBox="0 0 1000 230" role="img" aria-label="Line chart of the fake score for each of {{ n }} sampled frames">
+      {% for sg in chart.segs %}<rect x="{{ sg.x }}" y="{{ chart.top }}" width="{{ sg.w }}" height="{{ chart.base - chart.top }}" class="c-seg"/>
+      <text x="{{ sg.x + 6 }}" y="{{ chart.top + 14 }}" class="c-seglabel">Segment {{ sg.k }}</text>{% endfor %}
+      {% for g in chart.grid %}<line x1="46" x2="986" y1="{{ g.y }}" y2="{{ g.y }}" class="c-grid"/><text x="38" y="{{ g.y + 4 }}" text-anchor="end" class="c-axis">{{ g.label }}</text>{% endfor %}
+      <line x1="46" x2="986" y1="{{ chart.thr_y }}" y2="{{ chart.thr_y }}" class="c-thr"/>
+      <polygon points="{{ chart.area }}" class="c-area"/>
+      <polyline points="{{ chart.line }}" class="c-line"/>
+      {% for d in chart.dots %}<circle cx="{{ d.x }}" cy="{{ d.y }}" r="4" class="{{ 'c-dot hot' if d.hot else 'c-dot' }}"/>{% endfor %}
+      {% for t in chart.ticks %}<text x="{{ t.x }}" y="204" text-anchor="middle" class="c-axis">{{ t.label }}</text>{% endfor %}
+      <text x="516" y="224" text-anchor="middle" class="c-axis">{% if r.has_timing %}Seconds from the start of the video{% else %}Sampled-frame number{% endif %}</text>
+    </svg>
+  </figure></div>
+</section>
+
+<section class="panel" aria-labelledby="st">
+  <h2 id="st">Frame by frame</h2>
+  <p class="hint">Each face crop is one sampled frame, with its score underneath. Select a frame to look closer.</p>
+  <div class="scroll">
+    <div class="strip" style="--n: {{ n }}; --thr: {{ thr }}%" id="strip" role="listbox" aria-label="Sampled frames">
+      {% for f in frames %}
+      {% set hot = f.score >= r.threshold %}
+      <button type="button" role="option" class="cell{{ ' hot' if hot else '' }}{{ ' inseg' if seg_of.get(f.index) else '' }}" id="cell-{{ f.index }}"
+              aria-selected="{{ 'true' if loop.first else 'false' }}"
+              data-i="{{ f.index }}" data-pct="{{ f.pct }}"
+              data-time="{% if f.start_s is not none %}{{ '%.1f' % f.start_s }}–{{ '%.1f' % f.end_s }} s{% else %}Frame {{ f.index + 1 }}{% endif %}"
+              data-seg="{{ seg_of.get(f.index, '') }}"
+              {% if f.img %}data-src="{{ url_for('frame_file', video_id=r.video_id, name=f.img) }}"{% endif %}>
+        {% if f.img %}<img src="{{ url_for('frame_file', video_id=r.video_id, name=f.img) }}" alt="Frame {{ f.index + 1 }}, score {{ f.pct }}%" loading="lazy">{% else %}<span class="noimg"></span>{% endif %}
+        <span class="bar"><i style="height:{{ f.pct }}%"></i></span>
+        <span class="t">{% if f.start_s is not none %}{{ '%.1f' % f.start_s }}{% else %}{{ f.index + 1 }}{% endif %}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  <p class="swipe">Swipe sideways to see all frames.</p>
+
+  <div class="detail" id="detail" aria-live="polite">
+    <div class="big">{% if frames and frames[0].img %}<img id="d-img" src="{{ url_for('frame_file', video_id=r.video_id, name=frames[0].img) }}" alt="Selected frame">{% endif %}</div>
+    <div class="info">
+      <p class="dscore"><b id="d-pct">{{ frames[0].pct if frames else '' }}%</b> fake score</p>
+      <p class="raw">This frame, before smoothing</p>
+      <p id="d-time" class="dtime">{% if frames and frames[0].start_s is not none %}{{ '%.1f' % frames[0].start_s }}–{{ '%.1f' % frames[0].end_s }} s{% else %}Frame 1{% endif %}</p>
+      <p id="d-seg" class="dseg"></p>
+    </div>
+  </div>
+</section>
+
+{% if r.segments %}
+<section class="panel" aria-labelledby="sg">
+  <h2 id="sg">Suspicious segments</h2>
+  <table>
+    <thead><tr><th scope="col">Segment</th><th scope="col">{% if r.has_timing %}Time{% else %}Frames{% endif %}</th><th scope="col">Average (smoothed)</th><th scope="col">Highest (smoothed)</th></tr></thead>
+    <tbody>
+    {% for sg in r.segments %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{% if sg.start_s is not none %}{{ '%.1f' % sg.start_s }}–{{ '%.1f' % sg.end_s }} s{% else %}{{ sg.start_idx + 1 }}–{{ sg.end_idx + 1 }}{% endif %}</td>
+        <td>{{ (sg.mean_score * 100)|round|int }}%</td>
+        <td>{{ (sg.peak_score * 100)|round|int }}%</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+
+<section class="panel limits">
+  <details open>
+    <summary>What this result cannot tell you</summary>
+    <ul>{% for l in r.limitations %}<li>{{ l }}</li>{% endfor %}</ul>
+  </details>
+  {% if r.calibration %}<p class="method">Scores are calibrated with {{ r.calibration }}.</p>{% endif %}
+</section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var cells = Array.prototype.slice.call(document.querySelectorAll('.cell'));
+  var img = document.getElementById('d-img');
+  function select(c, focus) {
+    cells.forEach(function (x) {
+      var on = x === c;
+      x.classList.toggle('sel', on);
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+    });
+    if (img && c.dataset.src) img.src = c.dataset.src;
+    document.getElementById('d-pct').textContent = c.dataset.pct + '%';
+    document.getElementById('d-time').textContent = c.dataset.time;
+    document.getElementById('d-seg').textContent = c.dataset.seg ? 'Inside segment ' + c.dataset.seg : '';
+    if (focus) c.focus();
+  }
+  cells.forEach(function (c, i) {
+    c.addEventListener('click', function () { select(c, false); });
+    c.addEventListener('keydown', function (e) {
+      var j = i;
+      if (e.key === 'ArrowRight') j = Math.min(cells.length - 1, i + 1);
+      else if (e.key === 'ArrowLeft') j = Math.max(0, i - 1);
+      else return;
+      e.preventDefault();
+      select(cells[j], true);
+    });
+  });
+  if (cells.length) select(cells[0], false);
+})();
+</script>
+{% endblock %}
