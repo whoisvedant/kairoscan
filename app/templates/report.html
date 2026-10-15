@@ -48,7 +48,7 @@
   <div class="scroll"><figure class="chart">
     <svg viewBox="0 0 1000 230" role="img" aria-label="Line chart of the fake score for each of {{ n }} sampled frames">
       {% for sg in chart.segs %}<rect x="{{ sg.x }}" y="{{ chart.top }}" width="{{ sg.w }}" height="{{ chart.base - chart.top }}" class="c-seg"/>
-      <text x="{{ sg.x + 6 }}" y="{{ chart.top + 14 }}" class="c-seglabel">Segment {{ sg.k }}</text>{% endfor %}
+      <text x="{{ ([sg.x, 50]|max) + 6 }}" y="{{ chart.top + 14 }}" class="c-seglabel">Segment {{ sg.k }}</text>{% endfor %}
       {% for g in chart.grid %}<line x1="46" x2="986" y1="{{ g.y }}" y2="{{ g.y }}" class="c-grid"/><text x="38" y="{{ g.y + 4 }}" text-anchor="end" class="c-axis">{{ g.label }}</text>{% endfor %}
       <line x1="46" x2="986" y1="{{ chart.thr_y }}" y2="{{ chart.thr_y }}" class="c-thr"/>
       <polygon points="{{ chart.area }}" class="c-area"/>
@@ -92,6 +92,35 @@
     </div>
   </div>
 </section>
+
+{% if r.sections %}
+<section class="panel" aria-labelledby="ex">
+  <h2 id="ex">Explanation in plain English</h2>
+  <dl class="sections">
+    {% for sec in r.sections %}
+    <div><dt>{{ sec.title }}</dt><dd>{{ sec.text }}</dd></div>
+    {% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if heatmaps %}
+<section class="panel" aria-labelledby="hm">
+  <h2 id="hm">Where the model looked</h2>
+  <p class="hint">Heatmaps for the highest-scoring frames. Red marks the parts of the face that pushed the score towards fake. This shows the model's attention, not proof of an edit.</p>
+  <div class="hm-grid">
+    {% for h in heatmaps %}
+    <figure class="hm">
+      <div class="pair">
+        {% if crop_of.get(h.index) %}<img src="{{ url_for('frame_file', video_id=r.video_id, name=crop_of[h.index]) }}" alt="Face crop, frame {{ h.index + 1 }}">{% endif %}
+        <img src="{{ url_for('heatmap_file', name=h.file) }}" alt="Heatmap for frame {{ h.index + 1 }}">
+      </div>
+      <figcaption><b>{% if frames[h.index].start_s is not none %}{{ '%.1f' % frames[h.index].start_s }} s{% else %}Frame {{ h.index + 1 }}{% endif %}</b> · {{ frames[h.index].pct }}% fake score<br><span>Strongest on {{ h.label }}</span></figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 
 {% if r.segments %}
 <section class="panel" aria-labelledby="sg">

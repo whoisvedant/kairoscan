@@ -47,6 +47,14 @@ def main():
         assert "fake_a" in html and "real_a" in html and "Cannot decide" in html
         print("PASS library page lists all reports")
 
+        r = c.get("/report/fake_a").get_data(as_text=True)
+        assert "Explanation in plain English" in r and "Suggested next step" in r
+        print("PASS report page shows the plain-English explanation sections")
+
+        assert c.get("/heatmaps/missing.png").status_code == 404
+        assert c.get("/heatmaps/notes.txt").status_code == 404
+        print("PASS heatmap route refuses missing and non-image files")
+
         for vid, text in (("fake_a", "Likely manipulated"), ("real_a", "Leans real"), ("mid_a", "Cannot decide")):
             r = c.get(f"/report/{vid}")
             assert r.status_code == 200 and text in r.get_data(as_text=True), vid

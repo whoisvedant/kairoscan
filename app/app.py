@@ -155,6 +155,8 @@ def report_page(video_id):
     return render_template(
         "report.html", r=report, s=s, frames=frames, seg_of=seg_of, match=match,
         chart=build_chart(report),
+        heatmaps=report.get("heatmaps", []),
+        crop_of={f["index"]: f["img"] for f in frames},
         thr=round(report["threshold"] * 100),
         band=[round(x * 100) for x in report["uncertain_band"]],
     )
@@ -166,6 +168,13 @@ def frame_file(video_id, name):
     if not SAFE_ID.match(name) or not name.startswith("frame_"):
         abort(404)
     return send_from_directory(app.config["FRAMES_DIR"] / video_id, name)
+
+
+@app.route("/heatmaps/<name>")
+def heatmap_file(name):
+    if not SAFE_ID.match(name) or name.startswith(".") or not name.endswith(".png"):
+        abort(404)
+    return send_from_directory(app.config["REPORTS_DIR"], name)
 
 
 @app.route("/api/report/<video_id>")

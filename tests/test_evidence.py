@@ -132,6 +132,39 @@ def test_figure_renders():
         assert (Path(d) / "fig2.png").exists()
 
 
+
+def test_sections_are_built_from_numbers():
+    rep = build_report([0.9] * 8 + [0.1] * 8, 0.8, frame_time_ranges(16, 300, 30.0, 24), 10.0)
+    titles = [x["title"] for x in rep["sections"]]
+    assert titles == ["What the model found", "How consistent the signal was",
+                      "How much to trust it", "Suggested next step"], titles
+    assert "8 of 16" in rep["sections"][1]["text"]
+    assert "90%" in rep["sections"][1]["text"] and "10%" in rep["sections"][1]["text"]
+
+
+def test_sections_include_face_region_when_given():
+    info = [{"index": 2, "label": "the lower face (mouth and jaw)", "focused": True, "shares": {"upper": 0.1, "middle": 0.2, "lower": 0.7}},
+            {"index": 5, "label": "the lower face (mouth and jaw)", "focused": True, "shares": {"upper": 0.1, "middle": 0.2, "lower": 0.7}}]
+    rep = build_report([0.9] * 16, 0.95, None, None, region_info=info)
+    where = [x for x in rep["sections"] if x["title"].startswith("Where")]
+    assert len(where) == 1 and "lower face" in where[0]["text"]
+    assert "not proof" in where[0]["text"]
+    spread = [{"index": 2, "label": "no single region", "focused": False, "shares": {"upper": 0.34, "middle": 0.33, "lower": 0.33}}]
+    rep2 = build_report([0.9] * 16, 0.95, None, None, region_info=spread)
+    assert "spread across the face" in [x for x in rep2["sections"] if x["title"].startswith("Where")][0]["text"]
+
+
+def test_sections_uncertain_does_not_pick_a_side():
+    rep = build_report([0.5] * 16, 0.5, None, None)
+    text = " ".join(x["text"] for x in rep["sections"])
+    assert "does not decide" in text and "higher-quality copy" in text
+
+
+def test_no_region_claims_without_a_heatmap():
+    info = [{"index": 1, "label": "no clear region", "shares": None, "focused": False}]
+    rep = build_report([0.05] * 16, 0.04, None, None, region_info=info)
+    assert not [x for x in rep["sections"] if x["title"].startswith("Where")]
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

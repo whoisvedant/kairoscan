@@ -35,6 +35,7 @@ tm.resnet18 = tvm.resnet18
 from analyze_video import analyze_video, load_model, load_temperature  # noqa: E402
 from splice_test import run_splice_test  # noqa: E402
 from evidence import render_timeline_figure  # noqa: E402
+from gradcam import compute_cams, region_summary  # noqa: E402
 
 
 def make_fake_dataset(root):
@@ -75,7 +76,12 @@ def main():
 
         # one video with fps/total_frames, one without
         for vid in (ids["real"][0], ids["fake"][1]):
-            report, paths = analyze_video(vid, loaded, "cpu", T, str(proc))
+            cam_dir = tmp / "cams"
+            cam_dir.mkdir(exist_ok=True)
+            report, paths = analyze_video(vid, loaded, "cpu", T, str(proc), out_dir=str(cam_dir))
+            assert len(report["sections"]) >= 4
+            for h in report["heatmaps"]:
+                assert (cam_dir / h["file"]).exists()
             assert report["verdict"] in ("REAL", "FAKE", "UNCERTAIN")
             assert len(report["frames"]) == 16
             json.dumps(report)
@@ -83,6 +89,17 @@ def main():
             render_timeline_figure(report, paths, str(out))
             assert out.exists() and out.stat().st_size > 1000
         print("analyze_video: OK")
+
+        # Grad-CAM must work for every model type, including the Transformer
+        clip = torch.rand(1, 16, 3, 224, 224)
+        for kind in ("lstm", "gru", "transformer"):
+            m = tm.build_model(kind).eval()
+            cams = compute_cams(m, clip, [3, 9], "cpu")
+            assert set(cams) == {3, 9}
+            for c in cams.values():
+                assert c.shape == (224, 224) and 0.0 <= c.min() and c.max() <= 1.0
+                assert region_summary(c)["label"]
+        print("gradcam: OK (lstm, gru, transformer)")
 
         res = run_splice_test(loaded, "cpu", T, ids["real"], ids["fake"], str(proc),
                               n_pairs=4, show_progress=False)

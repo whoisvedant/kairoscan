@@ -121,6 +121,70 @@ def confidence_label(p: float, verdict: str) -> str:
 # --------------------------------------------------------------------------
 # Report
 # --------------------------------------------------------------------------
+def build_sections(verdict, conf, overall_prob, scores, smoothed, segments, time_ranges,
+                   threshold, frames_over, explanation, region_info=None):
+    """Plain-English explanation split into short titled sections.
+    Every sentence is built from the report's own numbers; nothing is guessed."""
+    n = len(scores)
+    sections = [{"title": "What the model found", "text": explanation}]
+
+    lo, hi = float(np.min(scores)), float(np.max(scores))
+    longest = max((e - s_ + 1 for s_, e in find_segments(smoothed, threshold)), default=0)
+    if frames_over == 0:
+        shape = (f"No frame reached {threshold:.0%}; scores ranged from {lo:.0%} to {hi:.0%}.")
+    elif frames_over >= 0.8 * n:
+        shape = (f"The signal was steady: {frames_over} of {n} sampled frames scored at or above "
+                 f"{threshold:.0%}, and scores ranged from {lo:.0%} to {hi:.0%}.")
+    elif longest >= 2:
+        shape = (f"{frames_over} of {n} sampled frames scored at or above {threshold:.0%}, in "
+                 f"{len(segments)} {'run' if len(segments) == 1 else 'runs'} of consecutive frames "
+                 f"(the longest is {longest} frames). "
+                 f"Scores ranged from {lo:.0%} to {hi:.0%}.")
+    else:
+        shape = (f"{frames_over} of {n} sampled frames scored at or above {threshold:.0%}, but only "
+                 f"as isolated frames, not runs. Scores ranged from {lo:.0%} to {hi:.0%}.")
+    sections.append({"title": "How consistent the signal was", "text": shape})
+
+    # Only frames that really had a heatmap say anything about regions. For a clearly
+    # real video no region pushes the score towards fake, so there is nothing to report.
+    region_info = [it for it in (region_info or []) if it.get("shares")]
+    if region_info:
+        parts = []
+        for item in region_info:
+            when = (f"{time_ranges[item['index']][0]:.1f}-{time_ranges[item['index']][1]:.1f} s"
+                    if time_ranges else f"sampled frame {item['index'] + 1}")
+            parts.append((when, item["label"], item["focused"]))
+        focused = [lab for _, lab, f in parts if f]
+        if focused and len(set(focused)) == 1:
+            where = (f"In the {len(parts)} highest-scoring frames, the model's attention was "
+                     f"strongest on {focused[0]}.")
+        elif focused:
+            where = ("In the highest-scoring frames the model's attention landed on different "
+                     "parts of the face: " + "; ".join(f"{w}: {lab}" for w, lab, _ in parts) + ".")
+        else:
+            where = ("In the highest-scoring frames the model's attention was spread across the "
+                     "face rather than concentrated in one region.")
+        where += (" This shows where the model looked, not proof that this part of the face was "
+                  "edited, and the crops are not aligned, so region names are approximate.")
+        sections.append({"title": "Where on the face it looked", "text": where})
+
+    if verdict == "UNCERTAIN":
+        trust = (f"Confidence is Low because the risk of {overall_prob:.0%} sits inside the "
+                 f"{UNCERTAIN_LOWER:.0%}-{UNCERTAIN_UPPER:.0%} band where the model does not decide.")
+        nxt = "Look for a higher-quality copy or another source of the same video before drawing conclusions."
+    elif verdict == "FAKE":
+        trust = (f"Confidence is {conf}: the fake risk is {overall_prob:.0%}, and a score further "
+                 f"from the {UNCERTAIN_LOWER:.0%}-{UNCERTAIN_UPPER:.0%} undecided band is a firmer call.")
+        nxt = "Check where the video came from and whether other copies exist before treating it as manipulated."
+    else:
+        trust = (f"Confidence is {conf}: the fake risk is {overall_prob:.0%}, and a score further "
+                 f"from the {UNCERTAIN_LOWER:.0%}-{UNCERTAIN_UPPER:.0%} undecided band is a firmer call.")
+        nxt = "A low score is not a guarantee. Compressed or blurred video can hide manipulation, so check the source if it matters."
+    sections.append({"title": "How much to trust it", "text": trust})
+    sections.append({"title": "Suggested next step", "text": nxt})
+    return sections
+
+
 def _describe_span(start_idx: int, end_idx: int, ranges) -> str:
     if ranges:
         return f"{ranges[start_idx][0]:.1f}-{ranges[end_idx][1]:.1f} s"
@@ -141,6 +205,7 @@ def build_report(
     upper: float = UNCERTAIN_UPPER,
     video_id: Optional[str] = None,
     ground_truth: Optional[str] = None,
+    region_info: Optional[List[Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """Build the full, JSON-serialisable evidence report.
 
@@ -259,6 +324,8 @@ def build_report(
         "segments": segments,
         "representative_frames": top_frames(scores, k=3, min_gap=2),
         "explanation": explanation,
+        "sections": build_sections(verdict, conf, overall_prob, scores, smoothed, segments,
+                                   time_ranges, threshold, frames_over, explanation, region_info),
         "limitations": limitations,
         "ground_truth_label": ground_truth,
     }

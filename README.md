@@ -224,3 +224,14 @@ python src/evaluation/splice_test.py --model_type lstm --n_pairs 100
 - Limits: only the first 16 of the 24 sampled frames are analysed; per-frame scores are
   trained only through mean pooling, so they are not validated boundaries.
 - The fitted temperature is used by default; add `--no_temperature` for raw output.
+
+### Plain-English explanation and Grad-CAM
+
+Each report now also has an explanation split into short sections (what the model found,
+how consistent the signal was, where on the face it looked, how much to trust it, next step)
+and Grad-CAM heatmaps for the three highest-scoring frames.
+
+- Every sentence is built from the model's own numbers; nothing is written by a language model.
+- Heatmaps show where the model's attention was strongest. They are not proof of an edit, and
+  the face crops are not aligned, so region names ("lower face") are approximate.
+- `analyze_video.py` computes heatmaps by default; add `--no_cam` to skip them.

@@ -221,3 +221,13 @@ tbody tr:last-child > * { border-bottom: 0; }
   .detail .big { width: 100%; height: auto; aspect-ratio: 1; max-width: 280px; }
 }
 @media (max-width: 760px) { .chart { min-width: 620px; } }
+
+.sections { margin: 0; display: grid; gap: 18px; max-width: 74ch; }
+.sections dt { font-family: "Sora", sans-serif; font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+.sections dd { margin: 0; color: var(--ink); }
+.hm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.hm { margin: 0; }
+.hm .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.hm .pair img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; display: block; background: var(--rule); }
+.hm figcaption { margin-top: 8px; font-size: 14px; color: var(--ink); }
+.hm figcaption span { color: var(--muted); }

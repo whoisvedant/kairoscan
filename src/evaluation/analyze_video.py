@@ -36,7 +36,8 @@ from PIL import Image
 
 from dataset import default_transform, load_split_ids
 from models.temporal_model import build_model
-from evidence import build_report, frame_time_ranges, render_timeline_figure
+from evidence import build_report, frame_time_ranges, render_timeline_figure, top_frames
+from gradcam import compute_cams, region_summary, save_overlay
 
 
 # --------------------------------------------------------------------------
@@ -92,7 +93,7 @@ def score_clips(model, clips, temperature, device):
 # One video -> one report
 # --------------------------------------------------------------------------
 def analyze_video(video_id, model, device, temperature, processed_dir="data/processed",
-                  seq_len=16, threshold=0.5, smooth=3, n_sampled=24):
+                  seq_len=16, threshold=0.5, smooth=3, n_sampled=24, out_dir=None, with_cam=True):
     video_dir = Path(processed_dir) / video_id
     paths = list_frames(video_dir)[:seq_len]
     if not paths:
@@ -110,6 +111,22 @@ def analyze_video(video_id, model, device, temperature, processed_dir="data/proc
     approx = bool(ranges) and saved is not None and saved != n_sampled
     truth = {0: "REAL", 1: "FAKE"}.get(meta.get("label"))
 
+    # Where on the face did the model look? (top-scoring frames only)
+    region_info, heatmaps = None, []
+    if with_cam and float(frame_probs[0].max()) >= threshold:
+        # Heatmaps only make sense when some frame is actually suspicious.
+        reps = top_frames(frame_probs[0].tolist(), k=3, min_gap=2)
+        cams = compute_cams(model, clip, reps, device)
+        region_info = []
+        for idx in reps:
+            info = region_summary(cams[idx])
+            region_info.append({"index": idx, **info})
+            if out_dir is not None and cams[idx].max() > 0:
+                fname = f"{video_id}_cam_{idx}.png"
+                save_overlay(str(paths[idx]), cams[idx], str(Path(out_dir) / fname))
+                heatmaps.append({"index": idx, "file": fname, "label": info["label"],
+                                 "shares": info["shares"]})
+
     report = build_report(
         frame_scores=frame_probs[0].tolist(),
         overall_prob=float(overall[0]),
@@ -120,7 +137,9 @@ def analyze_video(video_id, model, device, temperature, processed_dir="data/proc
         smooth_window=smooth,
         video_id=video_id,
         ground_truth=truth,
+        region_info=region_info,
     )
+    report["heatmaps"] = heatmaps
     return report, [str(p) for p in paths]
 
 
@@ -161,6 +180,8 @@ def main():
     parser.add_argument("--no_temperature", action="store_true",
                         help="use the raw model output instead of the fitted temperature")
     parser.add_argument("--out_dir", default="outputs/reports")
+    parser.add_argument("--no_cam", action="store_true",
+                        help="skip the Grad-CAM heatmaps (faster)")
     args = parser.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -178,7 +199,8 @@ def main():
     rows = []
     for vid in video_ids:
         report, paths = analyze_video(vid, model, device, temperature, args.processed_dir,
-                                      args.seq_len, args.threshold, args.smooth, args.n_sampled)
+                                      args.seq_len, args.threshold, args.smooth, args.n_sampled,
+                                      out_dir=out_dir, with_cam=not args.no_cam)
         report["calibration"] = how
         with open(out_dir / f"{vid}.json", "w") as f:
             json.dump(report, f, indent=2)
@@ -186,7 +208,11 @@ def main():
         rows.append(report)
         print(f"{vid:32s} label={report['ground_truth_label'] or '?':5s} "
               f"verdict={report['verdict']:9s} risk={report['fake_risk']:.0%}")
-        print(f"    {report['explanation']}\n")
+        print(f"    {report['explanation']}")
+        for sec in report["sections"][2:3]:
+            if sec["title"].startswith("Where"):
+                print(f"    {sec['text']}")
+        print()
 
     decided = [r for r in rows if r["verdict"] != "UNCERTAIN" and r["ground_truth_label"]]
     correct = sum(r["verdict"] == r["ground_truth_label"] for r in decided)
