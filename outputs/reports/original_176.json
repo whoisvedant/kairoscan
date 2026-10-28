@@ -1,0 +1,163 @@
+{
+  "video_id": "original_176",
+  "verdict": "REAL",
+  "fake_risk": 0.026128621771931648,
+  "confidence": "High",
+  "threshold": 0.5,
+  "uncertain_band": [
+    0.4,
+    0.6
+  ],
+  "has_timing": true,
+  "analysed_seconds": 8.355555555555556,
+  "video_seconds": 12.533333333333333,
+  "timing_approximate": false,
+  "frames": [
+    {
+      "index": 0,
+      "start_s": 0.0,
+      "end_s": 0.5222222222222223,
+      "score": 0.10224249213933945,
+      "smoothed": 0.06106653809547424
+    },
+    {
+      "index": 1,
+      "start_s": 0.5222222222222223,
+      "end_s": 1.0444444444444445,
+      "score": 0.01989058405160904,
+      "smoothed": 0.06401701768239339
+    },
+    {
+      "index": 2,
+      "start_s": 1.0444444444444445,
+      "end_s": 1.5666666666666669,
+      "score": 0.06991797685623169,
+      "smoothed": 0.0335312495008111
+    },
+    {
+      "index": 3,
+      "start_s": 1.5666666666666669,
+      "end_s": 2.088888888888889,
+      "score": 0.010785187594592571,
+      "smoothed": 0.03173234717299541
+    },
+    {
+      "index": 4,
+      "start_s": 2.088888888888889,
+      "end_s": 2.611111111111111,
+      "score": 0.014493877068161964,
+      "smoothed": 0.033533058129251
+    },
+    {
+      "index": 5,
+      "start_s": 2.611111111111111,
+      "end_s": 3.1333333333333337,
+      "score": 0.07532010972499847,
+      "smoothed": 0.07798815084000428
+    },
+    {
+      "index": 6,
+      "start_s": 3.1333333333333337,
+      "end_s": 3.655555555555556,
+      "score": 0.14415046572685242,
+      "smoothed": 0.0811220748970906
+    },
+    {
+      "index": 7,
+      "start_s": 3.655555555555556,
+      "end_s": 4.177777777777778,
+      "score": 0.02389564923942089,
+      "smoothed": 0.059517401891450085
+    },
+    {
+      "index": 8,
+      "start_s": 4.177777777777778,
+      "end_s": 4.7,
+      "score": 0.010506090708076954,
+      "smoothed": 0.015247266429165999
+    },
+    {
+      "index": 9,
+      "start_s": 4.7,
+      "end_s": 5.222222222222222,
+      "score": 0.011340059340000153,
+      "smoothed": 0.010471002198755741
+    },
+    {
+      "index": 10,
+      "start_s": 5.222222222222222,
+      "end_s": 5.7444444444444445,
+      "score": 0.009566856548190117,
+      "smoothed": 0.024628310774763424
+    },
+    {
+      "index": 11,
+      "start_s": 5.7444444444444445,
+      "end_s": 6.2666666666666675,
+      "score": 0.052978016436100006,
+      "smoothed": 0.05444729017714659
+    },
+    {
+      "index": 12,
+      "start_s": 6.2666666666666675,
+      "end_s": 6.78888888888889,
+      "score": 0.10079699754714966,
+      "smoothed": 0.05531677386413018
+    },
+    {
+      "index": 13,
+      "start_s": 6.78888888888889,
+      "end_s": 7.311111111111112,
+      "score": 0.012175307609140873,
+      "smoothed": 0.040559714970489345
+    },
+    {
+      "index": 14,
+      "start_s": 7.311111111111112,
+      "end_s": 7.833333333333334,
+      "score": 0.008706839755177498,
+      "smoothed": 0.010145549972852072
+    },
+    {
+      "index": 15,
+      "start_s": 7.833333333333334,
+      "end_s": 8.355555555555556,
+      "score": 0.009554502554237843,
+      "smoothed": 0.00913067115470767
+    }
+  ],
+  "segments": [],
+  "representative_frames": [
+    0,
+    6,
+    12
+  ],
+  "explanation": "The model rates this video only 3% likely to be manipulated, so it leans REAL (confidence: High). No window scored above 50%.",
+  "sections": [
+    {
+      "title": "What the model found",
+      "text": "The model rates this video only 3% likely to be manipulated, so it leans REAL (confidence: High). No window scored above 50%."
+    },
+    {
+      "title": "How consistent the signal was",
+      "text": "No frame reached 50%; scores ranged from 1% to 14%."
+    },
+    {
+      "title": "How much to trust it",
+      "text": "Confidence is High: the fake risk is 3%, and a score further from the 40%-60% undecided band is a firmer call."
+    },
+    {
+      "title": "Suggested next step",
+      "text": "A low score is not a guarantee. Compressed or blurred video can hide manipulation, so check the source if it matters."
+    }
+  ],
+  "limitations": [
+    "This is a statistical estimate, not proof that a video is authentic or manipulated.",
+    "Detection reliability drops sharply on heavily compressed, blurred or noisy video (measured in the robustness tests, docs/results.md).",
+    "Per-window scores show where the model's evidence is concentrated; the model was not trained with frame-level labels, so these are not validated manipulation boundaries.",
+    "Only the first 8.4 s of the 12.5 s video were analysed."
+  ],
+  "ground_truth_label": "REAL",
+  "heatmaps": [],
+  "calibration": "temperature scaling, T=1.4578"
+}

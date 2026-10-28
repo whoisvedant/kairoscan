@@ -1,0 +1,217 @@
+{
+  "video_id": "NeuralTextures_559_543",
+  "verdict": "FAKE",
+  "fake_risk": 0.792976438999176,
+  "confidence": "Moderate",
+  "threshold": 0.5,
+  "uncertain_band": [
+    0.4,
+    0.6
+  ],
+  "has_timing": true,
+  "analysed_seconds": 8.906666666666666,
+  "video_seconds": 13.36,
+  "timing_approximate": false,
+  "frames": [
+    {
+      "index": 0,
+      "start_s": 0.0,
+      "end_s": 0.5566666666666666,
+      "score": 0.8749477863311768,
+      "smoothed": 0.9204046726226807
+    },
+    {
+      "index": 1,
+      "start_s": 0.5566666666666666,
+      "end_s": 1.1133333333333333,
+      "score": 0.9658615589141846,
+      "smoothed": 0.7098191777865092
+    },
+    {
+      "index": 2,
+      "start_s": 1.1133333333333333,
+      "end_s": 1.67,
+      "score": 0.28864818811416626,
+      "smoothed": 0.4712076485157013
+    },
+    {
+      "index": 3,
+      "start_s": 1.67,
+      "end_s": 2.2266666666666666,
+      "score": 0.15911319851875305,
+      "smoothed": 0.22697299222151437
+    },
+    {
+      "index": 4,
+      "start_s": 2.2266666666666666,
+      "end_s": 2.783333333333333,
+      "score": 0.23315759003162384,
+      "smoothed": 0.2579916367928187
+    },
+    {
+      "index": 5,
+      "start_s": 2.783333333333333,
+      "end_s": 3.34,
+      "score": 0.3817041218280792,
+      "smoothed": 0.45529835919539136
+    },
+    {
+      "index": 6,
+      "start_s": 3.34,
+      "end_s": 3.8966666666666665,
+      "score": 0.751033365726471,
+      "smoothed": 0.6843725740909576
+    },
+    {
+      "index": 7,
+      "start_s": 3.8966666666666665,
+      "end_s": 4.453333333333333,
+      "score": 0.9203802347183228,
+      "smoothed": 0.8509164651234945
+    },
+    {
+      "index": 8,
+      "start_s": 4.453333333333333,
+      "end_s": 5.01,
+      "score": 0.8813357949256897,
+      "smoothed": 0.8874773780504862
+    },
+    {
+      "index": 9,
+      "start_s": 5.01,
+      "end_s": 5.566666666666666,
+      "score": 0.8607161045074463,
+      "smoothed": 0.8432252009709676
+    },
+    {
+      "index": 10,
+      "start_s": 5.566666666666666,
+      "end_s": 6.123333333333333,
+      "score": 0.7876237034797668,
+      "smoothed": 0.83700164159139
+    },
+    {
+      "index": 11,
+      "start_s": 6.123333333333333,
+      "end_s": 6.68,
+      "score": 0.8626651167869568,
+      "smoothed": 0.7983315189679464
+    },
+    {
+      "index": 12,
+      "start_s": 6.68,
+      "end_s": 7.236666666666666,
+      "score": 0.7447057366371155,
+      "smoothed": 0.8468406001726786
+    },
+    {
+      "index": 13,
+      "start_s": 7.236666666666666,
+      "end_s": 7.793333333333333,
+      "score": 0.9331509470939636,
+      "smoothed": 0.8707884351412455
+    },
+    {
+      "index": 14,
+      "start_s": 7.793333333333333,
+      "end_s": 8.35,
+      "score": 0.9345086216926575,
+      "smoothed": 0.9465601046880087
+    },
+    {
+      "index": 15,
+      "start_s": 8.35,
+      "end_s": 8.906666666666666,
+      "score": 0.9720207452774048,
+      "smoothed": 0.9532646834850311
+    }
+  ],
+  "segments": [
+    {
+      "start_idx": 6,
+      "end_idx": 15,
+      "start_s": 3.34,
+      "end_s": 8.906666666666666,
+      "mean_score": 0.8518778602282208,
+      "peak_score": 0.9532646834850311,
+      "n_frames": 10
+    },
+    {
+      "start_idx": 0,
+      "end_idx": 1,
+      "start_s": 0.0,
+      "end_s": 1.1133333333333333,
+      "mean_score": 0.8151119252045949,
+      "peak_score": 0.9204046726226807,
+      "n_frames": 2
+    }
+  ],
+  "representative_frames": [
+    1,
+    13,
+    15
+  ],
+  "explanation": "The model rates this video 79% likely to be manipulated (confidence: Moderate). The evidence is concentrated in 3.3-8.9 s; 0.0-1.1 s (12 of 16 sampled frames scored above 50%).",
+  "sections": [
+    {
+      "title": "What the model found",
+      "text": "The model rates this video 79% likely to be manipulated (confidence: Moderate). The evidence is concentrated in 3.3-8.9 s; 0.0-1.1 s (12 of 16 sampled frames scored above 50%)."
+    },
+    {
+      "title": "How consistent the signal was",
+      "text": "12 of 16 sampled frames scored at or above 50%, in 2 runs of consecutive frames (the longest is 10 frames). Scores ranged from 16% to 97%."
+    },
+    {
+      "title": "Where on the face it looked",
+      "text": "In the highest-scoring frames the model's attention landed on different parts of the face: 0.6-1.1 s: the middle of the face (nose and cheeks); 7.2-7.8 s: the lower face (mouth and jaw); 8.3-8.9 s: the lower face (mouth and jaw). This shows where the model looked, not proof that this part of the face was edited, and the crops are not aligned, so region names are approximate."
+    },
+    {
+      "title": "How much to trust it",
+      "text": "Confidence is Moderate: the fake risk is 79%, and a score further from the 40%-60% undecided band is a firmer call."
+    },
+    {
+      "title": "Suggested next step",
+      "text": "Check where the video came from and whether other copies exist before treating it as manipulated."
+    }
+  ],
+  "limitations": [
+    "This is a statistical estimate, not proof that a video is authentic or manipulated.",
+    "Detection reliability drops sharply on heavily compressed, blurred or noisy video (measured in the robustness tests, docs/results.md).",
+    "Per-window scores show where the model's evidence is concentrated; the model was not trained with frame-level labels, so these are not validated manipulation boundaries.",
+    "Only the first 8.9 s of the 13.4 s video were analysed."
+  ],
+  "ground_truth_label": "FAKE",
+  "heatmaps": [
+    {
+      "index": 1,
+      "file": "NeuralTextures_559_543_cam_1.png",
+      "label": "the middle of the face (nose and cheeks)",
+      "shares": {
+        "upper": 0.076,
+        "middle": 0.647,
+        "lower": 0.276
+      }
+    },
+    {
+      "index": 13,
+      "file": "NeuralTextures_559_543_cam_13.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.011,
+        "middle": 0.358,
+        "lower": 0.631
+      }
+    },
+    {
+      "index": 15,
+      "file": "NeuralTextures_559_543_cam_15.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.034,
+        "middle": 0.423,
+        "lower": 0.543
+      }
+    }
+  ],
+  "calibration": "temperature scaling, T=1.4578"
+}

@@ -1,0 +1,208 @@
+{
+  "video_id": "original_832",
+  "verdict": "REAL",
+  "fake_risk": 0.11824989318847656,
+  "confidence": "Moderate",
+  "threshold": 0.5,
+  "uncertain_band": [
+    0.4,
+    0.6
+  ],
+  "has_timing": true,
+  "analysed_seconds": 14.746666666666668,
+  "video_seconds": 22.12,
+  "timing_approximate": false,
+  "frames": [
+    {
+      "index": 0,
+      "start_s": 0.0,
+      "end_s": 0.9216666666666667,
+      "score": 0.9500784277915955,
+      "smoothed": 0.927502304315567
+    },
+    {
+      "index": 1,
+      "start_s": 0.9216666666666667,
+      "end_s": 1.8433333333333335,
+      "score": 0.9049261808395386,
+      "smoothed": 0.9304471413294474
+    },
+    {
+      "index": 2,
+      "start_s": 1.8433333333333335,
+      "end_s": 2.765,
+      "score": 0.9363368153572083,
+      "smoothed": 0.8992538650830587
+    },
+    {
+      "index": 3,
+      "start_s": 2.765,
+      "end_s": 3.686666666666667,
+      "score": 0.8564985990524292,
+      "smoothed": 0.6119568658371767
+    },
+    {
+      "index": 4,
+      "start_s": 3.686666666666667,
+      "end_s": 4.608333333333333,
+      "score": 0.04303518310189247,
+      "smoothed": 0.349324282258749
+    },
+    {
+      "index": 5,
+      "start_s": 4.608333333333333,
+      "end_s": 5.53,
+      "score": 0.14843906462192535,
+      "smoothed": 0.0692638661712408
+    },
+    {
+      "index": 6,
+      "start_s": 5.53,
+      "end_s": 6.451666666666667,
+      "score": 0.016317350789904594,
+      "smoothed": 0.07765901274979115
+    },
+    {
+      "index": 7,
+      "start_s": 6.451666666666667,
+      "end_s": 7.373333333333334,
+      "score": 0.06822062283754349,
+      "smoothed": 0.03193344486256441
+    },
+    {
+      "index": 8,
+      "start_s": 7.373333333333334,
+      "end_s": 8.295,
+      "score": 0.011262360960245132,
+      "smoothed": 0.02937320185204347
+    },
+    {
+      "index": 9,
+      "start_s": 8.295,
+      "end_s": 9.216666666666667,
+      "score": 0.00863662175834179,
+      "smoothed": 0.012805800884962082
+    },
+    {
+      "index": 10,
+      "start_s": 9.216666666666667,
+      "end_s": 10.138333333333334,
+      "score": 0.018518419936299324,
+      "smoothed": 0.012006580519179503
+    },
+    {
+      "index": 11,
+      "start_s": 10.138333333333334,
+      "end_s": 11.06,
+      "score": 0.008864699862897396,
+      "smoothed": 0.0343120771770676
+    },
+    {
+      "index": 12,
+      "start_s": 11.06,
+      "end_s": 11.981666666666667,
+      "score": 0.07555311173200607,
+      "smoothed": 0.07443280735363562
+    },
+    {
+      "index": 13,
+      "start_s": 11.981666666666667,
+      "end_s": 12.903333333333334,
+      "score": 0.13888061046600342,
+      "smoothed": 0.07525305263698101
+    },
+    {
+      "index": 14,
+      "start_s": 12.903333333333334,
+      "end_s": 13.825000000000001,
+      "score": 0.01132543571293354,
+      "smoothed": 0.0593361450980107
+    },
+    {
+      "index": 15,
+      "start_s": 13.825000000000001,
+      "end_s": 14.746666666666668,
+      "score": 0.02780238911509514,
+      "smoothed": 0.01956391241401434
+    }
+  ],
+  "segments": [
+    {
+      "start_idx": 0,
+      "end_idx": 3,
+      "start_s": 0.0,
+      "end_s": 3.686666666666667,
+      "mean_score": 0.8422900441413125,
+      "peak_score": 0.9304471413294474,
+      "n_frames": 4
+    }
+  ],
+  "representative_frames": [
+    0,
+    2,
+    5
+  ],
+  "explanation": "The model rates this video only 12% likely to be manipulated, so it leans REAL (confidence: Moderate). Short windows (0.0-3.7 s) scored above 50%, but they were not strong enough to change the overall result.",
+  "sections": [
+    {
+      "title": "What the model found",
+      "text": "The model rates this video only 12% likely to be manipulated, so it leans REAL (confidence: Moderate). Short windows (0.0-3.7 s) scored above 50%, but they were not strong enough to change the overall result."
+    },
+    {
+      "title": "How consistent the signal was",
+      "text": "4 of 16 sampled frames scored at or above 50%, in 1 run of consecutive frames (the longest is 4 frames). Scores ranged from 1% to 95%."
+    },
+    {
+      "title": "Where on the face it looked",
+      "text": "In the 3 highest-scoring frames, the model's attention was strongest on the lower face (mouth and jaw). This shows where the model looked, not proof that this part of the face was edited, and the crops are not aligned, so region names are approximate."
+    },
+    {
+      "title": "How much to trust it",
+      "text": "Confidence is Moderate: the fake risk is 12%, and a score further from the 40%-60% undecided band is a firmer call."
+    },
+    {
+      "title": "Suggested next step",
+      "text": "A low score is not a guarantee. Compressed or blurred video can hide manipulation, so check the source if it matters."
+    }
+  ],
+  "limitations": [
+    "This is a statistical estimate, not proof that a video is authentic or manipulated.",
+    "Detection reliability drops sharply on heavily compressed, blurred or noisy video (measured in the robustness tests, docs/results.md).",
+    "Per-window scores show where the model's evidence is concentrated; the model was not trained with frame-level labels, so these are not validated manipulation boundaries.",
+    "Only the first 14.7 s of the 22.1 s video were analysed."
+  ],
+  "ground_truth_label": "REAL",
+  "heatmaps": [
+    {
+      "index": 0,
+      "file": "original_832_cam_0.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.0,
+        "middle": 0.289,
+        "lower": 0.711
+      }
+    },
+    {
+      "index": 2,
+      "file": "original_832_cam_2.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.001,
+        "middle": 0.339,
+        "lower": 0.66
+      }
+    },
+    {
+      "index": 5,
+      "file": "original_832_cam_5.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.0,
+        "middle": 0.124,
+        "lower": 0.876
+      }
+    }
+  ],
+  "calibration": "temperature scaling, T=1.4578"
+}

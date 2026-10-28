@@ -1,0 +1,208 @@
+{
+  "video_id": "FaceSwap_794_779",
+  "verdict": "FAKE",
+  "fake_risk": 0.9953954815864563,
+  "confidence": "High",
+  "threshold": 0.5,
+  "uncertain_band": [
+    0.4,
+    0.6
+  ],
+  "has_timing": true,
+  "analysed_seconds": 8.16,
+  "video_seconds": 12.24,
+  "timing_approximate": false,
+  "frames": [
+    {
+      "index": 0,
+      "start_s": 0.0,
+      "end_s": 0.51,
+      "score": 0.9844008088111877,
+      "smoothed": 0.9886080920696259
+    },
+    {
+      "index": 1,
+      "start_s": 0.51,
+      "end_s": 1.02,
+      "score": 0.992815375328064,
+      "smoothed": 0.9920550584793091
+    },
+    {
+      "index": 2,
+      "start_s": 1.02,
+      "end_s": 1.53,
+      "score": 0.9989489912986755,
+      "smoothed": 0.9968364437421163
+    },
+    {
+      "index": 3,
+      "start_s": 1.53,
+      "end_s": 2.04,
+      "score": 0.9987449645996094,
+      "smoothed": 0.9971660176912943
+    },
+    {
+      "index": 4,
+      "start_s": 2.04,
+      "end_s": 2.55,
+      "score": 0.9938040971755981,
+      "smoothed": 0.8880541920661926
+    },
+    {
+      "index": 5,
+      "start_s": 2.55,
+      "end_s": 3.06,
+      "score": 0.6716135144233704,
+      "smoothed": 0.8775983254114786
+    },
+    {
+      "index": 6,
+      "start_s": 3.06,
+      "end_s": 3.5700000000000003,
+      "score": 0.9673773646354675,
+      "smoothed": 0.8788988391558329
+    },
+    {
+      "index": 7,
+      "start_s": 3.5700000000000003,
+      "end_s": 4.08,
+      "score": 0.9977056384086609,
+      "smoothed": 0.9880568981170654
+    },
+    {
+      "index": 8,
+      "start_s": 4.08,
+      "end_s": 4.59,
+      "score": 0.9990876913070679,
+      "smoothed": 0.9986685713132223
+    },
+    {
+      "index": 9,
+      "start_s": 4.59,
+      "end_s": 5.1,
+      "score": 0.999212384223938,
+      "smoothed": 0.9978074034055074
+    },
+    {
+      "index": 10,
+      "start_s": 5.1,
+      "end_s": 5.61,
+      "score": 0.9951221346855164,
+      "smoothed": 0.9978150129318237
+    },
+    {
+      "index": 11,
+      "start_s": 5.61,
+      "end_s": 6.12,
+      "score": 0.9991105198860168,
+      "smoothed": 0.9978081186612447
+    },
+    {
+      "index": 12,
+      "start_s": 6.12,
+      "end_s": 6.63,
+      "score": 0.9991917014122009,
+      "smoothed": 0.978269120057424
+    },
+    {
+      "index": 13,
+      "start_s": 6.63,
+      "end_s": 7.140000000000001,
+      "score": 0.936505138874054,
+      "smoothed": 0.9768633445103964
+    },
+    {
+      "index": 14,
+      "start_s": 7.140000000000001,
+      "end_s": 7.65,
+      "score": 0.9948931932449341,
+      "smoothed": 0.9766711592674255
+    },
+    {
+      "index": 15,
+      "start_s": 7.65,
+      "end_s": 8.16,
+      "score": 0.9986151456832886,
+      "smoothed": 0.9967541694641113
+    }
+  ],
+  "segments": [
+    {
+      "start_idx": 0,
+      "end_idx": 15,
+      "start_s": 0.0,
+      "end_s": 8.16,
+      "mean_score": 0.9704956728965044,
+      "peak_score": 0.9986685713132223,
+      "n_frames": 16
+    }
+  ],
+  "representative_frames": [
+    2,
+    9,
+    12
+  ],
+  "explanation": "The model rates this video 100% likely to be manipulated (confidence: High). The suspicious signal is present across almost the whole analysed clip (16 of 16 sampled frames scored above 50%) rather than in one short burst.",
+  "sections": [
+    {
+      "title": "What the model found",
+      "text": "The model rates this video 100% likely to be manipulated (confidence: High). The suspicious signal is present across almost the whole analysed clip (16 of 16 sampled frames scored above 50%) rather than in one short burst."
+    },
+    {
+      "title": "How consistent the signal was",
+      "text": "The signal was steady: 16 of 16 sampled frames scored at or above 50%, and scores ranged from 67% to 100%."
+    },
+    {
+      "title": "Where on the face it looked",
+      "text": "In the 3 highest-scoring frames, the model's attention was strongest on the lower face (mouth and jaw). This shows where the model looked, not proof that this part of the face was edited, and the crops are not aligned, so region names are approximate."
+    },
+    {
+      "title": "How much to trust it",
+      "text": "Confidence is High: the fake risk is 100%, and a score further from the 40%-60% undecided band is a firmer call."
+    },
+    {
+      "title": "Suggested next step",
+      "text": "Check where the video came from and whether other copies exist before treating it as manipulated."
+    }
+  ],
+  "limitations": [
+    "This is a statistical estimate, not proof that a video is authentic or manipulated.",
+    "Detection reliability drops sharply on heavily compressed, blurred or noisy video (measured in the robustness tests, docs/results.md).",
+    "Per-window scores show where the model's evidence is concentrated; the model was not trained with frame-level labels, so these are not validated manipulation boundaries.",
+    "Only the first 8.2 s of the 12.2 s video were analysed."
+  ],
+  "ground_truth_label": "FAKE",
+  "heatmaps": [
+    {
+      "index": 2,
+      "file": "FaceSwap_794_779_cam_2.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.02,
+        "middle": 0.374,
+        "lower": 0.606
+      }
+    },
+    {
+      "index": 9,
+      "file": "FaceSwap_794_779_cam_9.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.015,
+        "middle": 0.327,
+        "lower": 0.657
+      }
+    },
+    {
+      "index": 12,
+      "file": "FaceSwap_794_779_cam_12.png",
+      "label": "the lower face (mouth and jaw)",
+      "shares": {
+        "upper": 0.02,
+        "middle": 0.366,
+        "lower": 0.614
+      }
+    }
+  ],
+  "calibration": "temperature scaling, T=1.4578"
+}

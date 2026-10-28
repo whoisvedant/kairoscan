@@ -1,0 +1,154 @@
+{
+  "video_id": "Face2Face_234_187",
+  "verdict": "FAKE",
+  "fake_risk": 0.9625029563903809,
+  "confidence": "High",
+  "threshold": 0.5,
+  "uncertain_band": [
+    0.4,
+    0.6
+  ],
+  "has_timing": true,
+  "analysed_seconds": 21.91111111111111,
+  "video_seconds": 32.86666666666667,
+  "timing_approximate": false,
+  "frames": [
+    {
+      "index": 0,
+      "start_s": 0.0,
+      "end_s": 1.3694444444444445,
+      "score": 0.6668610572814941,
+      "smoothed": 0.5067959874868393
+    },
+    {
+      "index": 1,
+      "start_s": 1.3694444444444445,
+      "end_s": 2.738888888888889,
+      "score": 0.34673091769218445,
+      "smoothed": 0.5198919475078583
+    },
+    {
+      "index": 2,
+      "start_s": 2.738888888888889,
+      "end_s": 4.108333333333333,
+      "score": 0.5460838675498962,
+      "smoothed": 0.6127416789531708
+    },
+    {
+      "index": 3,
+      "start_s": 4.108333333333333,
+      "end_s": 5.477777777777778,
+      "score": 0.9454102516174316,
+      "smoothed": 0.8236376245816549
+    },
+    {
+      "index": 4,
+      "start_s": 5.477777777777778,
+      "end_s": 6.847222222222222,
+      "score": 0.9794187545776367,
+      "smoothed": 0.9705429474512736
+    },
+    {
+      "index": 5,
+      "start_s": 6.847222222222222,
+      "end_s": 8.216666666666667,
+      "score": 0.9867998361587524,
+      "smoothed": 0.9847790598869324
+    },
+    {
+      "index": 6,
+      "start_s": 8.216666666666667,
+      "end_s": 9.586111111111112,
+      "score": 0.988118588924408,
+      "smoothed": 0.9817070364952087
+    },
+    {
+      "index": 7,
+      "start_s": 9.586111111111112,
+      "end_s": 10.955555555555556,
+      "score": 0.9702026844024658,
+      "smoothed": 0.9736573100090027
+    },
+    {
+      "index": 8,
+      "start_s": 10.955555555555556,
+      "end_s": 12.325,
+      "score": 0.9626506567001343,
+      "smoothed": 0.97176460425059
+    },
+    {
+      "index": 9,
+      "start_s": 12.325,
+      "end_s": 13.694444444444445,
+      "score": 0.9824404716491699,
+      "smoothed": 0.9725725452105204
+    },
+    {
+      "index": 10,
+      "start_s": 13.694444444444445,
+      "end_s": 15.06388888888889,
+      "score": 0.9726265072822571,
+      "smoothed": 0.9814293583234152
+    },
+    {
+      "index": 11,
+      "start_s": 15.06388888888889,
+      "end_s": 16.433333333333334,
+      "score": 0.9892210960388184,
+      "smoothed": 0.9848798712094625
+    },
+    {
+      "index": 12,
+      "start_s": 16.433333333333334,
+      "end_s": 17.802777777777777,
+      "score": 0.992792010307312,
+      "smoothed": 0.9910236597061157
+    },
+    {
+      "index": 13,
+      "start_s": 17.802777777777777,
+      "end_s": 19.172222222222224,
+      "score": 0.9910578727722168,
+      "smoothed": 0.9907740553220113
+    },
+    {
+      "index": 14,
+      "start_s": 19.172222222222224,
+      "end_s": 20.541666666666668,
+      "score": 0.9884722828865051,
+      "smoothed": 0.9812987446784973
+    },
+    {
+      "index": 15,
+      "start_s": 20.541666666666668,
+      "end_s": 21.91111111111111,
+      "score": 0.96436607837677,
+      "smoothed": 0.9764191806316376
+    }
+  ],
+  "segments": [
+    {
+      "start_idx": 0,
+      "end_idx": 15,
+      "start_s": 0.0,
+      "end_s": 21.91111111111111,
+      "mean_score": 0.8889947257315118,
+      "peak_score": 0.9910236597061157,
+      "n_frames": 16
+    }
+  ],
+  "representative_frames": [
+    6,
+    12,
+    14
+  ],
+  "explanation": "The model rates this video 96% likely to be manipulated (confidence: High). The suspicious signal is present across almost the whole analysed clip (16 of 16 sampled frames scored above 50%) rather than in one short burst.",
+  "limitations": [
+    "This is a statistical estimate, not proof that a video is authentic or manipulated.",
+    "Detection reliability drops sharply on heavily compressed, blurred or noisy video (measured in the robustness tests, docs/results.md).",
+    "Per-window scores show where the model's evidence is concentrated; the model was not trained with frame-level labels, so these are not validated manipulation boundaries.",
+    "Only the first 21.9 s of the 32.9 s video were analysed."
+  ],
+  "ground_truth_label": "FAKE",
+  "calibration": "temperature scaling, T=1.4578"
+}

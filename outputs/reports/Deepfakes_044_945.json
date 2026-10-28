@@ -1,0 +1,208 @@
+{
+  "video_id": "Deepfakes_044_945",
+  "verdict": "FAKE",
+  "fake_risk": 0.9900298714637756,
+  "confidence": "High",
+  "threshold": 0.5,
+  "uncertain_band": [
+    0.4,
+    0.6
+  ],
+  "has_timing": true,
+  "analysed_seconds": 7.444444444444445,
+  "video_seconds": 11.166666666666666,
+  "timing_approximate": false,
+  "frames": [
+    {
+      "index": 0,
+      "start_s": 0.0,
+      "end_s": 0.4652777777777778,
+      "score": 0.8933591842651367,
+      "smoothed": 0.9072421789169312
+    },
+    {
+      "index": 1,
+      "start_s": 0.4652777777777778,
+      "end_s": 0.9305555555555556,
+      "score": 0.9211251735687256,
+      "smoothed": 0.9196182092030843
+    },
+    {
+      "index": 2,
+      "start_s": 0.9305555555555556,
+      "end_s": 1.3958333333333335,
+      "score": 0.9443702697753906,
+      "smoothed": 0.9533246358235677
+    },
+    {
+      "index": 3,
+      "start_s": 1.3958333333333335,
+      "end_s": 1.8611111111111112,
+      "score": 0.9944784641265869,
+      "smoothed": 0.9769574403762817
+    },
+    {
+      "index": 4,
+      "start_s": 1.8611111111111112,
+      "end_s": 2.326388888888889,
+      "score": 0.9920235872268677,
+      "smoothed": 0.9939114451408386
+    },
+    {
+      "index": 5,
+      "start_s": 2.326388888888889,
+      "end_s": 2.791666666666667,
+      "score": 0.9952322840690613,
+      "smoothed": 0.9946621060371399
+    },
+    {
+      "index": 6,
+      "start_s": 2.791666666666667,
+      "end_s": 3.2569444444444446,
+      "score": 0.9967304468154907,
+      "smoothed": 0.9956748088200887
+    },
+    {
+      "index": 7,
+      "start_s": 3.2569444444444446,
+      "end_s": 3.7222222222222223,
+      "score": 0.9950616955757141,
+      "smoothed": 0.9959389567375183
+    },
+    {
+      "index": 8,
+      "start_s": 3.7222222222222223,
+      "end_s": 4.1875,
+      "score": 0.9960247278213501,
+      "smoothed": 0.9930674036343893
+    },
+    {
+      "index": 9,
+      "start_s": 4.1875,
+      "end_s": 4.652777777777778,
+      "score": 0.9881157875061035,
+      "smoothed": 0.9871289332707723
+    },
+    {
+      "index": 10,
+      "start_s": 4.652777777777778,
+      "end_s": 5.118055555555555,
+      "score": 0.9772462844848633,
+      "smoothed": 0.9861605167388916
+    },
+    {
+      "index": 11,
+      "start_s": 5.118055555555555,
+      "end_s": 5.583333333333334,
+      "score": 0.993119478225708,
+      "smoothed": 0.9881564577420553
+    },
+    {
+      "index": 12,
+      "start_s": 5.583333333333334,
+      "end_s": 6.048611111111112,
+      "score": 0.9941036105155945,
+      "smoothed": 0.9942289193471273
+    },
+    {
+      "index": 13,
+      "start_s": 6.048611111111112,
+      "end_s": 6.513888888888889,
+      "score": 0.9954636693000793,
+      "smoothed": 0.9940854907035828
+    },
+    {
+      "index": 14,
+      "start_s": 6.513888888888889,
+      "end_s": 6.979166666666667,
+      "score": 0.9926891922950745,
+      "smoothed": 0.9949004451433817
+    },
+    {
+      "index": 15,
+      "start_s": 6.979166666666667,
+      "end_s": 7.444444444444445,
+      "score": 0.9965484738349915,
+      "smoothed": 0.994618833065033
+    }
+  ],
+  "segments": [
+    {
+      "start_idx": 0,
+      "end_idx": 15,
+      "start_s": 0.0,
+      "end_s": 7.444444444444445,
+      "mean_score": 0.9793547987937927,
+      "peak_score": 0.9959389567375183,
+      "n_frames": 16
+    }
+  ],
+  "representative_frames": [
+    6,
+    8,
+    15
+  ],
+  "explanation": "The model rates this video 99% likely to be manipulated (confidence: High). The suspicious signal is present across almost the whole analysed clip (16 of 16 sampled frames scored above 50%) rather than in one short burst.",
+  "sections": [
+    {
+      "title": "What the model found",
+      "text": "The model rates this video 99% likely to be manipulated (confidence: High). The suspicious signal is present across almost the whole analysed clip (16 of 16 sampled frames scored above 50%) rather than in one short burst."
+    },
+    {
+      "title": "How consistent the signal was",
+      "text": "The signal was steady: 16 of 16 sampled frames scored at or above 50%, and scores ranged from 89% to 100%."
+    },
+    {
+      "title": "Where on the face it looked",
+      "text": "In the 3 highest-scoring frames, the model's attention was strongest on the middle of the face (nose and cheeks). This shows where the model looked, not proof that this part of the face was edited, and the crops are not aligned, so region names are approximate."
+    },
+    {
+      "title": "How much to trust it",
+      "text": "Confidence is High: the fake risk is 99%, and a score further from the 40%-60% undecided band is a firmer call."
+    },
+    {
+      "title": "Suggested next step",
+      "text": "Check where the video came from and whether other copies exist before treating it as manipulated."
+    }
+  ],
+  "limitations": [
+    "This is a statistical estimate, not proof that a video is authentic or manipulated.",
+    "Detection reliability drops sharply on heavily compressed, blurred or noisy video (measured in the robustness tests, docs/results.md).",
+    "Per-window scores show where the model's evidence is concentrated; the model was not trained with frame-level labels, so these are not validated manipulation boundaries.",
+    "Only the first 7.4 s of the 11.2 s video were analysed."
+  ],
+  "ground_truth_label": "FAKE",
+  "heatmaps": [
+    {
+      "index": 6,
+      "file": "Deepfakes_044_945_cam_6.png",
+      "label": "the middle of the face (nose and cheeks)",
+      "shares": {
+        "upper": 0.269,
+        "middle": 0.696,
+        "lower": 0.035
+      }
+    },
+    {
+      "index": 8,
+      "file": "Deepfakes_044_945_cam_8.png",
+      "label": "the middle of the face (nose and cheeks)",
+      "shares": {
+        "upper": 0.268,
+        "middle": 0.654,
+        "lower": 0.078
+      }
+    },
+    {
+      "index": 15,
+      "file": "Deepfakes_044_945_cam_15.png",
+      "label": "the middle of the face (nose and cheeks)",
+      "shares": {
+        "upper": 0.314,
+        "middle": 0.62,
+        "lower": 0.066
+      }
+    }
+  ],
+  "calibration": "temperature scaling, T=1.4578"
+}
